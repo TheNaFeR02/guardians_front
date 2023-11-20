@@ -15,8 +15,6 @@ async function fetchHero(id: number, token: string): Promise<Hero> {
         'Authorization': `Token ${token}`
       }
     })
-
-    // console.log(await response.json())
     return await response.json()
   } catch (error) {
     throw Error('Error while fetching Hero Info.');
@@ -36,7 +34,6 @@ async function fetchSponsors(token: string): Promise<Sponsor[]> {
   } catch (error) {
     throw new Error('Error while fetching list of sponsors.')
   }
-
 }
 
 export default async function HeroPage({ params }: { params: { id: number } }) {
@@ -109,37 +106,10 @@ export default async function HeroPage({ params }: { params: { id: number } }) {
                     <img className="rounded-full" src={sponsor.image_url} alt={sponsor.name} role="img" />
                   </div>
 
-
                 ))
               ) : (<p></p>)}
-
             </div>
           </div>
-        
       }
-
-
-
-      {/* <p>Primary Key: {params.id}</p> */}
-      {/* {heroInfo &&
-                <p>{heroInfo.age}</p>}
-
-            {Object.keys(heroInfo?.character_friends!).map((key, index) => (
-                
-                    <div key={index}>
-                        <h2>
-                            {key}: {heroInfo?.character_friends[key]}
-                        </h2>
-
-                        <hr />
-                    </div>
-                
-            ))} */}
-
-      {/* <div style={{ 
-      backgroundImage: `url("${heroInfo?.image_url}")`}} className="absolute w-full h-96 inset-x-0 bg-blue-500 text-white bg-cover bg-center"></div> */}
-
-
-
     </>)
 }

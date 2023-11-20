@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import VillainCard from "./VillainCard";
+import { Villain } from "../types/Villain";
 
 
 export default function VillainList({ villainsList, filter }: { villainsList: Array<Villain>, filter: string | undefined }) {

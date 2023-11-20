@@ -1,25 +1,23 @@
-interface Villain {
-    id: number;
-    name: string;
-    age: number;
-    image_url: string;
-    description: string;
-    character_enemies: CharacterEnemies[];
-    powers: Powers[];
-    weaknesses: Weaknesses[];
+export interface Villain {
+  id: number;
+  name: string;
+  age: number;
+  image_url: string;
+  image_screen_large_url: string;
+  description: string;
+  character_enemies: CharacterEnemies;
+  powers: Powers;
+  weaknesses: Weaknesses;
 }
 
-interface CharacterEnemies {
-    id: number;
-    name: string;
+export interface CharacterEnemies {
+  [key: string]: string;
 }
 
-interface Powers {
-    id: number;
-    name: string;
+interface Power {
+  [key: string]: string;
 }
 
 interface Weaknesses {
-    id: number;
-    name: string;
+  [key: string]: string;
 }

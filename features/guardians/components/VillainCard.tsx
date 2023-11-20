@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Villain } from "../types/Villain";
 
 
 const VillainCard = ({ params }: { params: Villain }) => {
   return (
-    <Link href="/" className="outline-0 focus:ring-2 hover:ring-2 ring-primary transition duration-300 rounded-lg">
+    <Link href={`villain/${params.id}`} className="outline-0 focus:ring-2 hover:ring-2 ring-primary transition duration-300 rounded-lg">
       <Card className="rounded-lg border-2">
         <CardContent className="pt-4">
           <div className="aspect-square relative bg-foreground/5 dark:bg-background rounded-lg">

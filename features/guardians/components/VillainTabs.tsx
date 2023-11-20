@@ -5,6 +5,7 @@ import LazyTabPanel from "./LazyTabPanel";
 import { ArrowDown01, ArrowDownZA, ArrowUp10, ArrowUpAZ } from "lucide-react";
 import VillainList from "./VillainList";
 import 'react-tabs/style/react-tabs.css';
+import { Villain } from "../types/Villain";
 
 export default function VillainTabs({ villainsList }: { villainsList: Array<Villain> }) {
     const [tabIndex, setTabIndex] = useState(0);
