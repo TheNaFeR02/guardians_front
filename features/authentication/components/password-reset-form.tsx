@@ -4,59 +4,53 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { usePost } from "@/hooks/useFetch";
 import Link from "next/link";
 import { useRef } from "react";
 
-export default function PasswordResetForm(){
+export default function PasswordResetForm() {
 
     const email = useRef<string>("");
 
     const onSubmit = async () => {
-        try{
-            const response = await fetch('http://127.0.0.1:8000/api/auth/password/reset/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email.current,
-                }),
-            });
-            const data = await response.json();
-            console.log(data);
-                        
-            if (response.ok){
-                alert("Password reset email sent, please check your e-mail!");
-            } else {
-                alert("Password reset failed");
+        const response = await usePost({
+            url: '/api/auth/password/reset/',
+            method: 'POST',
+            data: {
+                email: email.current,
             }
+        });
 
-        } catch (error){
-            console.log(error);
+        const { data, statusCode } = response;
+
+        if (statusCode === 200) {
+            alert("Password reset email sent, please check your e-mail!");
+        } else {
+            alert("Password reset failed")
         }
     };
 
-    return(
-    <>
-<div className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden">
-            <div className="w-full m-auto bg-white lg:max-w-lg">
-                <Card>
-                    <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl text-center">Password Reset</CardTitle>
-                        <CardDescription className="text-center">
-                            Enter your email to reset your password
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="text" placeholder="Enter e-mail" onChange={(e) => email.current = e.target.value} />
-                        </div>
-                    </CardContent>
-                    <CardFooter className="flex flex-col">
-                        <Button className="w-full" onClick={onSubmit}>Change Password</Button>
-                    </CardFooter>
-                    {/* <div className="relative mb-2">
+    return (
+        <>
+            <div className="relative flex flex-col justify-center items-center min-h-screen overflow-hidden">
+                <div className="w-full m-auto bg-white lg:max-w-lg">
+                    <Card>
+                        <CardHeader className="space-y-1">
+                            <CardTitle className="text-2xl text-center">Password Reset</CardTitle>
+                            <CardDescription className="text-center">
+                                Enter your email to reset your password
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="grid gap-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="text" placeholder="Enter e-mail" onChange={(e) => email.current = e.target.value} />
+                            </div>
+                        </CardContent>
+                        <CardFooter className="flex flex-col">
+                            <Button className="w-full" onClick={onSubmit}>Change Password</Button>
+                        </CardFooter>
+                        {/* <div className="relative mb-2">
                         <div className="absolute inset-0 flex items-center">
                             <span className="w-full border-t" />
                         </div>
@@ -87,12 +81,12 @@ export default function PasswordResetForm(){
                         </p>
                     </Link>
  */}
-                </Card>
+                    </Card>
+                </div>
             </div>
-        </div>
- 
-   
-    
-    </>);
+
+
+
+        </>);
 }
 

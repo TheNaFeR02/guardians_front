@@ -13,23 +13,50 @@ const Header = () => {
                     <div className="flex items-center">
                         <Link href="/" className="ml-4 lg:ml-0">
                             <h1 className="text-xl font-bold">
-                                STORE NAME
+                                GUARDIANS
                             </h1>
                         </Link>
                     </div>
                     <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 hidden md:block ">
                         <Button asChild variant="ghost">
                             <Link
+                                href={'/heroes'}
+                                // key={key}
+                                className="text-sm font-medium transition-colors"
+                            >
+                                Heroes
+                            </Link>
+                        </Button>
+                        <Button asChild variant="ghost">
+                            <Link
+                                href={'/villains'}
+                                // key={key}
+                                className="text-sm font-medium transition-colors"
+                            >
+                                Villains
+                            </Link>
+                        </Button>
+                        <Button asChild variant="ghost">
+                            <Link
                                 href={'/'}
                                 // key={key}
                                 className="text-sm font-medium transition-colors"
                             >
-                                X
+                                Scheduler
+                            </Link>
+                        </Button>
+                        <Button asChild variant="ghost">
+                            <Link
+                                href={'/sponsors'}
+                                // key={key}
+                                className="text-sm font-medium transition-colors"
+                            >
+                                Sponsors
                             </Link>
                         </Button>
                     </nav>
-                    <div className="flex items-center">
-                        <Button
+                    <div className="flex items-center gap-4">
+                        {/* <Button
                             variant="ghost"
                             size="icon"
                             className="mr-2"
@@ -37,7 +64,7 @@ const Header = () => {
                         >
                             <ShoppingCart className="h-6 w-6" />
                             <span className="sr-only">Shopping Cart</span>
-                        </Button>
+                        </Button> */}
 
                         <ModeToggle />
                         <ProfileButton />

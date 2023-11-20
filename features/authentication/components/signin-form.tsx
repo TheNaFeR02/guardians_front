@@ -77,9 +77,9 @@ export default function LoginAccount() {
                             <Icons.gitHub className="mr-2 h-4 w-4" />
                             Github
                         </Button>
-                        <Button variant="outline">
-                            <Icons.twitter className="mr-2 h-4 w-4" />
-                            Twitter
+                        <Button variant="outline" onClick={() => signIn("google", { callbackUrl: "/google" })}>
+                            <Icons.google color=""  className="mr-2 h-4 w-4" />
+                            Google
                         </Button>
                     </div>
 

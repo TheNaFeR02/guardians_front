@@ -1,45 +1,51 @@
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import { useRef } from "react";
+"use client"
 
-export default function PasswordResetConfirmForm({ params }: { params: [Number, string] }) {
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { useRef } from "react"
+import { useRouter } from "next/navigation"
+import { usePost } from "@/hooks/useFetch"
 
+type ParamsType = {
+    params: [number, string]
+};
+
+export default function PasswordResetConfirm({ params }: { params: ParamsType }) {
     const newPassword = useRef<string>("");
     const newPasswordConfirm = useRef<string>("");
+    const { push } = useRouter();
 
-    console.log(params);
-
+    const [uid, token] = params.params;
+    console.log(uid, token);
 
     const onSubmit = async () => {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/auth/password/reset/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    uid: params[0],
-                    token: params[1],
-                    new_password1: newPassword.current,
-                    new_password2: newPasswordConfirm.current,
-                }),
-            });
-            const data = await response.json();
-            console.log(data);
-
-            if (response.ok) {
-                alert("Password reset email sent");
-            } else {
-                alert("Password reset failed");
+        const response = await usePost({
+            url: '/api/auth/password/reset/confirm/',
+            method: 'POST',
+            data: {
+                uid: uid,
+                token: token,
+                new_password1: newPassword.current,
+                new_password2: newPasswordConfirm.current,
             }
+        });
 
-        } catch (error) {
-            console.log(error);
+        const { statusCode } = response;
+
+        if (statusCode === 200) {
+            alert("Your password has been reset successfully");
+            push('/signin');
+        } else {
+            alert("Password reset failed");
         }
     };
 
@@ -70,6 +76,9 @@ export default function PasswordResetConfirmForm({ params }: { params: [Number, 
                     </Card>
                 </div>
             </div>
-        </>);
-}
 
+
+
+        </>
+    );
+}

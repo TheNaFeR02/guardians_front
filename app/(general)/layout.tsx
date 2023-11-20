@@ -7,6 +7,7 @@ import Provider from '@/app/(general)/providers'
 import { options } from '../api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth'
 import AuthenticationPage from '../(auth)/signin/page'
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,39 +22,52 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
+  const headersList = headers();
+  // read the custom x-url header
+  const pathname = headersList.get('x-url') || "";
 
+  console.log(/\/hero\/\d+$/.test(pathname));
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning >
       <body className={inter.className}>
 
 
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen "> {/*overflow-hidden*/}
           <Provider attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange>
             {/* <!-- ===== Sidebar Start ===== --> */}
-            <Sidebar
-            />
+            {/* <Sidebar/> */}
             {/* <!-- ===== Sidebar End ===== --> */}
 
 
 
             {/* <!-- ===== Content Area Start ===== --> */}
-            <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+            <div className="scroll-smooth relative flex flex-1 flex-col"> {/*overflow-y-auto overflow-x-hidden*/}
               {/* <!-- ===== Header Start ===== --> */}
+
               <Header />
+
               {/* <!-- ===== Header End ===== --> */}
 
               {/* <!-- ===== Main Content Start ===== --> */}
               <main>
-                <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+
+                {/\/hero\/\d+$/.test(pathname)
+                  ? (
+                    <div className=" ">
+                      {children}
+                    </div>
+                  )
+                  : <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+                    {children}
+                  </div>
+
+                }
 
 
-                  {children}
 
-
-                </div>
               </main>
               {/* <!-- ===== Main Content End ===== --> */}
             </div>

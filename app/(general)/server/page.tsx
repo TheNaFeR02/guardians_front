@@ -21,7 +21,7 @@ export default async function Profile({ user }: Props) {
             <h2>User Details</h2>
             <p>-------------</p>
             <p><strong>Role:</strong> {session?.user.role}</p>
-            <p><strong>API Token:</strong>  {session?.user.accessToken}</p>
+            {/* <p><strong>API Token:</strong>  {session?.user.accessToken}</p> */}
             <p><strong>Email:</strong> {session?.user.email}</p>
         </>
     )

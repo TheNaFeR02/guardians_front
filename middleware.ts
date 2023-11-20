@@ -8,6 +8,18 @@ export default withAuth(
         // console.log(request.nextUrl.pathname)
         // console.log(request.nextauth.token)
 
+        // Store current request url in a custom header, which you can read later
+
+
+        if (request.nextUrl.pathname.startsWith("/")
+            && !request.nextauth.token?.accessAPIToken) {
+            return NextResponse.rewrite(
+                new URL("/error", request.url)
+            )
+        }
+
+
+
         if (request.nextUrl.pathname.startsWith("/profile")
             && request.nextauth.token?.role !== "admin") {
             return NextResponse.rewrite(
@@ -22,6 +34,16 @@ export default withAuth(
                 new URL("/denied", request.url)
             )
         }
+
+        const requestHeaders = new Headers(request.headers);
+        requestHeaders.set('x-url', request.url);
+
+        return NextResponse.next({
+            request: {
+                // Apply new request headers
+                headers: requestHeaders,
+            }
+        });
     },
     {
         callbacks: {
@@ -30,7 +52,7 @@ export default withAuth(
 
         pages: {
             signIn: "/signin",
-            
+
         },
     },
 )
@@ -39,7 +61,7 @@ export default withAuth(
 // Ref: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
 export const config = {
     // matcher: ["/profile", "/mails/:path*", "/client"], Protects specific pages. 
-    matcher: ["/((?!signup|password-reset|account-confirm-email|confirm-email).*)"], // Protects all the pages.
-    
+    matcher: ["/((?!signup|password-reset|account-confirm-email|confirm-email|error).*)"], // Protects all the pages.
+
     // matcher: ["/"],
 }

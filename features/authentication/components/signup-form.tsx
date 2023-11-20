@@ -28,32 +28,8 @@ export default function SignUpAccount() {
     const password2 = useRef<string>("");
     const { push } = useRouter();
 
-    // const onSubmit = async () => {
-
-    //     console.log("entro")
-    //     try {
-    //         const { data, status } = await axios.post('http://127.0.0.1:8000/api/auth/register/', {
-    //             username: username.current,
-    //             email: email.current,
-    //             password1: password1.current,
-    //             password2: password2.current,
-    //         })
-    //         console.log(data);
-    //         console.log(status);
-
-    //         if (status === 201) {
-    //             console.log("User registered successfully.");
-    //             push('/confirm-email')
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     async function onSubmit() {
-
-        const result = await usePost({
+        const response = await usePost({
             url: '/api/auth/register/',
             method: "POST",
             data: {
@@ -64,13 +40,12 @@ export default function SignUpAccount() {
             },
         });
 
-        const { data, statusCode } = result;
+        const { data, statusCode } = response;
 
         if (statusCode === 201) {
             console.log("User registered successfully.");
             push('/confirm-email')
         }
-
     }
 
     return (

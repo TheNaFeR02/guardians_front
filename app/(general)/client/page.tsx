@@ -27,7 +27,7 @@ export default function ClientPage() {
             <h2>User Details</h2>
             <p>-------------</p>
             <p><strong>Role:</strong> {session?.user.role}</p>
-            <p><strong>API Token:</strong>  {session?.user.accessToken}</p>
+            <p><strong>API Token:</strong>  {session?.user.accessAPIToken}</p>
             <p><strong>Email:</strong> {session?.user.email}</p>
         </>
     )

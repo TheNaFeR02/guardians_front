@@ -17,8 +17,9 @@ type ConditionalProps = GetProps | PostProps
 type Props = BaseProps & ConditionalProps
 
 type FetchReturn = {
-    data: object | undefined
-    statusCode: number
+    data: object | undefined;
+    statusCode: number;
+    ok: boolean;
 }
 
 
@@ -41,7 +42,7 @@ function getURL(url: string) {
 
 const fetchData = async ({ url, method, data }: Props): Promise<FetchReturn> => {
     const staticURL = getURL(url);
-
+    console.log("url: ",staticURL);
     try {
 
         const response = await fetch(staticURL, {
@@ -56,7 +57,8 @@ const fetchData = async ({ url, method, data }: Props): Promise<FetchReturn> => 
 
         return {
             data: responseData,
-            statusCode: response.status
+            statusCode: response.status,
+            ok: response.ok
         };
     } catch (error) {
         // Handle the error here, you can log it or throw a custom error.
