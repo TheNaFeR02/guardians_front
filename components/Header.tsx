@@ -38,7 +38,7 @@ const Header = () => {
                         </Button>
                         <Button asChild variant="ghost">
                             <Link
-                                href={'/'}
+                                href={'/scheduler'}
                                 // key={key}
                                 className="text-sm font-medium transition-colors"
                             >
@@ -56,16 +56,6 @@ const Header = () => {
                         </Button>
                     </nav>
                     <div className="flex items-center gap-4">
-                        {/* <Button
-                            variant="ghost"
-                            size="icon"
-                            className="mr-2"
-                            aria-label="Shopping Cart"
-                        >
-                            <ShoppingCart className="h-6 w-6" />
-                            <span className="sr-only">Shopping Cart</span>
-                        </Button> */}
-
                         <ModeToggle />
                         <ProfileButton />
                     </div>

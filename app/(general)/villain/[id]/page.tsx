@@ -55,7 +55,6 @@ export default async function HeroPage({ params }: { params: { id: number } }) {
         <hr className="m-16" />
         <Superpowers powers={villainInfo?.powers} />
       </div>}
-
     </>
   )
 }

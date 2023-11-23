@@ -6,6 +6,7 @@ import { Hero } from "@/features/guardians/types/Hero";
 import Sponsor from "@/features/guardians/types/Sponsor";
 import { throws } from "assert";
 import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 
 async function fetchHero(id: number, token: string): Promise<Hero> {
   try {
@@ -38,6 +39,9 @@ async function fetchSponsors(token: string): Promise<Sponsor[]> {
 
 export default async function HeroPage({ params }: { params: { id: number } }) {
   const session = await getServerSession(options)
+  if (!session) {
+    redirect('/api/auth/signin?callbackUrl=/server')
+  }
   let heroInfo: Hero | null = null;
   let sponsorsList: Sponsor[] = []
 
@@ -87,29 +91,29 @@ export default async function HeroPage({ params }: { params: { id: number } }) {
 
       {/* Sponsors */}
       {
-        heroInfo?.sponsors && Object.keys(heroInfo?.sponsors).length > 0 && 
-          
-          <div className="sm:max-w-5xl pt-8 rounded-xl mx-4 sm:mx-8 md:mx-auto">
-            <div className="w-11/12 sm:w-2/3 mx-auto mb-10">
-              <h1 className="focus:outline-none xl:text-5xl text-3xl text-center text-primary font-semibold pt-4">My Sponsors!</h1>
-              <hr className="m-16"/>
-            </div>
-            <div className="sm:py-6 px-8 sm:24 flex flex-wrap items-center justify-center">
+        heroInfo?.sponsors && Object.keys(heroInfo?.sponsors).length > 0 &&
 
-              {filteredSponsors.length > 0 ? (
-                filteredSponsors.map((sponsor, index) => (
-
-                  <div
-                    className="w-1/3 sm:w-1/6 flex justify-center xl:pb-10 pb-16 items-center inset-0 transform hover:scale-75 transition duration-300 contrast-75 hover:contrast-100 drop-shadow-xl"
-                  >
-                    <div id="hola" className="w-full h-full rounded-full absolute bottom-20 opacity-0 hover:opacity-100 text-2xl">{sponsor.name}</div>
-                    <img className="rounded-full" src={sponsor.image_url} alt={sponsor.name} role="img" />
-                  </div>
-
-                ))
-              ) : (<p></p>)}
-            </div>
+        <div className="sm:max-w-5xl pt-8 rounded-xl mx-4 sm:mx-8 md:mx-auto">
+          <div className="w-11/12 sm:w-2/3 mx-auto mb-10">
+            <h1 className="focus:outline-none xl:text-5xl text-3xl text-center text-primary font-semibold pt-4">My Sponsors!</h1>
+            <hr className="m-16" />
           </div>
+          <div className="sm:py-6 px-8 sm:24 flex flex-wrap items-center justify-center">
+
+            {filteredSponsors.length > 0 ? (
+              filteredSponsors.map((sponsor, index) => (
+
+                <div
+                  className="w-1/3 sm:w-1/6 flex justify-center xl:pb-10 pb-16 items-center inset-0 transform hover:scale-75 transition duration-300 contrast-75 hover:contrast-100 drop-shadow-xl"
+                >
+                  <div id="hola" className="w-full h-full rounded-full absolute bottom-20 opacity-0 hover:opacity-100 text-2xl">{sponsor.name}</div>
+                  <img className="rounded-full" src={sponsor.image_url} alt={sponsor.name} role="img" />
+                </div>
+
+              ))
+            ) : (<p></p>)}
+          </div>
+        </div>
       }
     </>)
 }
