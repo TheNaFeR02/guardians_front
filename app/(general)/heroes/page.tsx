@@ -21,6 +21,7 @@ async function fetchHeroData(token: string) {
   return data;
 }
 
+export const revalidate = 10; //revalidate every 10 seconds
 
 export default async function Home() {
   const session = await getServerSession(options)

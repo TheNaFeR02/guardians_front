@@ -42,21 +42,6 @@ export async function fetchHeroNames(token: string | null | undefined): Promise<
   }
 }
 
-
-export async function fetchHeroEvents(token: string | null): Promise<EventInput[]> {
-  try {
-    const response = await fetch('http://127.0.0.1:8000/heroes/schedules/', {
-      method: 'GET',
-      headers: { 'Authorization': `Token ${token}` },
-    })
-    console.log("", await response.json())
-    return INITIAL_EVENTS
-  } catch (error) {
-    throw new Error('Error while fetching list of Hero Events')
-    // return undefined
-  }
-}
-
 // ---------------------------------------------------------------- 
 
 export function createEventId() {

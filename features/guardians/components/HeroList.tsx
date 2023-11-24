@@ -1,10 +1,28 @@
 "use client"
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, createElement } from "react";
 import { Hero } from "../types/Hero";
 import HeroCard from "./HeroCard";
+import { LucideIcon, Plus } from "lucide-react"
+
+type CreateHero = Hero & {
+  addicon: LucideIcon,
+  description: string,
+}
 
 
+
+const newHero: Hero = {
+  id: 0,
+  name: 'Create New Hero',
+  age: 0,
+  image_url: '',
+  image_screen_large_url: '',
+  description: 'Click to create your own Hero',
+  character_friends: {},
+  powers: {},
+  sponsors: {},
+};
 
 export default function HeroList({ heroesList, filter }: { heroesList: Array<Hero>, filter: string | undefined }) {
 
@@ -36,7 +54,8 @@ export default function HeroList({ heroesList, filter }: { heroesList: Array<Her
     return (
         <>
             <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                          <HeroCard params={newHero}/>
                     {filter !== undefined ? (
                         sortedHeroes.map((hero, index) => (
                             <HeroCard key={index} params={hero} />

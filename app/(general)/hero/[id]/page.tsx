@@ -100,7 +100,7 @@ export default async function HeroPage({ params }: { params: { id: number } }) {
           </div>
           <div className="sm:py-6 px-8 sm:24 flex flex-wrap items-center justify-center">
 
-            {filteredSponsors.length > 0 ? (
+            {filteredSponsors.length > 0 && (
               filteredSponsors.map((sponsor, index) => (
 
                 <div
@@ -111,7 +111,7 @@ export default async function HeroPage({ params }: { params: { id: number } }) {
                 </div>
 
               ))
-            ) : (<p></p>)}
+            )}
           </div>
         </div>
       }

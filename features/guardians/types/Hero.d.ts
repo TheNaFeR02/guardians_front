@@ -10,14 +10,14 @@ export interface Hero {
     sponsors: Sponsor,
 }
 
-interface CharacterFriends {
+export interface CharacterFriends {
     [key: string]: string;
 }
 
-interface Power {
+export interface Power {
     [key: string]: string;
 }
 
-interface Sponsor {
+export interface Sponsor {
     [key: string]: string;
 }

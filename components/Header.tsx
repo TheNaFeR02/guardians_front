@@ -54,6 +54,15 @@ const Header = () => {
                                 Sponsors
                             </Link>
                         </Button>
+                        <Button asChild variant="ghost">
+                            <Link
+                                href={'/fights'}
+                                // key={key}
+                                className="text-sm font-medium transition-colors"
+                            >
+                                Fights
+                            </Link>
+                        </Button>
                     </nav>
                     <div className="flex items-center gap-4">
                         <ModeToggle />

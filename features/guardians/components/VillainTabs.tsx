@@ -47,11 +47,7 @@ export default function VillainTabs({ villainsList }: { villainsList: Array<Vill
                     <VillainList villainsList={villainsList} filter={ageFilter  } />
                 </LazyTabPanel>
 
-                <LazyTabPanel>
-                    <VillainList villainsList={villainsList} filter={ageFilter  } />
-                </LazyTabPanel>
-
-
+                
 
 
             </Tabs>
