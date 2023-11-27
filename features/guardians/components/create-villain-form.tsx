@@ -25,6 +25,10 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import SelectHeroFriends from "./SelectHeroFriends";
 import SelectPowers from "./SelectPowers";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useRouter } from 'next/navigation'
+
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 const ACCEPTED_IMAGE_MIME_TYPES = [
@@ -60,8 +64,11 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
     }
   })
 
+  const router = useRouter()
   const [selectedEnemies, setSelectedEnemies] = useState<{ id: number, name: string }[]>([]);
   const [selectedPowers, setSelectedPowers] = useState<{ id: number, name: string }[]>([]);
+  const [errorPostForm, setErrorPostForm] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -112,7 +119,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
     }
 
 
-    const val:any = {};
+    const val: any = {};
     formData.forEach((value, key) => {
       val[key] = value;
     });
@@ -131,8 +138,12 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
         }
       });
       console.log("backapi: ", response.data);
+      router.push("/villains");
+
     } catch (error) {
       // Handle any errors here.
+setErrorPostForm(true);
+
       console.error(error);
     }
 
@@ -269,7 +280,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
               name="image_url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image</FormLabel>
+                  <FormLabel>Image<br /></FormLabel>
                   <FormControl>
                     {/* <Input {...field} type="file" accept="image/jpeg,image/png,image/gif" placeholder="Choose an image" /> */}
                     <input
@@ -353,6 +364,15 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
             <Button type="submit">Submit</Button>
           </form>
         </Form>
+
+        {errorPostForm && <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4 mt-3" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            There was an error persisting the data in the server.
+          </AlertDescription>
+        </Alert>
+        }
       </div>
     </div>
 

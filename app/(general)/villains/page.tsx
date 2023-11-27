@@ -49,9 +49,9 @@ export default async function Villains() {
                         >
                             <div className="h-full w-full flex flex-col justify-center items-center text-center gap-y-8">
                                 <div className="font-bold italic text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs text-black dark:text-white bg-secondary/60 p-4 rounded-lg">
-                                    See all the Villains
+                                    Choose your Villains
                                     <Button size="lg" className="w-full py-6 text-xl italic">
-                                        <Link href="/heroes">Create your own villain</Link>
+                                        <Link href="#villains-list">See villains</Link>
                                     </Button>
                                 </div>
                             </div>

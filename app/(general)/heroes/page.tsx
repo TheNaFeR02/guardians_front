@@ -8,6 +8,7 @@ import { Hero } from '@/features/guardians/types/Hero'
 import HeroTabs from '@/features/guardians/components/HeroTabs'
 
 
+
 async function fetchHeroData(token: string) {
   const response = await fetch('http://127.0.0.1:8000/heroes/heroes/', {
     method: 'GET',
@@ -48,9 +49,10 @@ export default async function Home() {
                 <div className="font-bold italic text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs text-black dark:text-white bg-secondary/60 p-4 rounded-lg">
                   Choose your Hero
                   <Button size="lg" className="w-full py-6 text-xl italic">
-                    <Link href="/heroes">Create your hero</Link>
+                    <Link href="#heroes-list">See Heroes</Link>
 
                   </Button>
+                  
                 </div>
               </div>
             </div>

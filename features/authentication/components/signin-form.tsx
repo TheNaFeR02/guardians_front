@@ -73,11 +73,11 @@ export default function LoginAccount() {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-6 m-2">
-                        <Button variant="outline" onClick={() => signIn("github", { callbackUrl: "/profile" })}>
+                        <Button variant="outline" onClick={() => signIn("github", { callbackUrl: "/heroes" })}>
                             <Icons.gitHub className="mr-2 h-4 w-4" />
                             Github
                         </Button>
-                        <Button variant="outline" onClick={() => signIn("google", { callbackUrl: "/google" })}>
+                        <Button variant="outline" onClick={() => signIn("google", { callbackUrl: "/heroes" })}>
                             <Icons.google color=""  className="mr-2 h-4 w-4" />
                             Google
                         </Button>

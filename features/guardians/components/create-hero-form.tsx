@@ -23,7 +23,7 @@ import axios from "axios"
 import { HeroName } from "@/app/(general)/scheduler/page";
 import SelectHero from "@/features/scheduler/components/SelectHero";
 import { useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { AlertCircle, Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SelectHeroFriends from "./SelectHeroFriends";
 import { Badge } from "@/components/ui/badge";
@@ -32,7 +32,8 @@ import SuperpowersMap from "../types/Superpowers";
 import SelectPowers from "./SelectPowers";
 import SelectHeroSponsors from "./SelectHeroSponsors";
 import Sponsor from "../types/Sponsor";
-
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useRouter } from 'next/navigation'
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 const ACCEPTED_IMAGE_MIME_TYPES = [
@@ -60,10 +61,11 @@ export const formSchema = z.object({
 const formData = new FormData();
 
 export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[], sponsors: Sponsor[] }) {
-
+  const router = useRouter()
   const [selectedFriends, setSelectedFriends] = useState<HeroName[]>([]); // [1,2,3
   const [selectedPowers, setSelectedPowers] = useState<Array<{ id: number, name: string }>>([]); //
   const [selectedSponsors, setSelectedSponsors] = useState<Array<{ id: number, name: string }>>([]); // [1,2,3
+  const [errorPostForm, setErrorPostForm] = useState(false);
 
   const { data: session } = useSession({
     required: true,
@@ -142,8 +144,10 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
         }
       });
       console.log("backapi: ", response.data);
+      router.push("/heroes");
     } catch (error) {
       // Handle any errors here.
+      setErrorPostForm(true);
       console.error(error);
     }
 
@@ -378,6 +382,15 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
             <Button type="submit">Submit</Button>
           </form>
         </Form>
+
+        {errorPostForm && <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4 mt-3" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            There was an error persisting the data in the server.
+          </AlertDescription>
+        </Alert>
+        }
       </div>
     </div>
 
