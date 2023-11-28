@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { signOut } from 'next-auth/react'
+import { useRouter } from "next/navigation"
 
 const ProfileButton = () => {
+  const router = useRouter();
   const logOutProvider = async () => {
     await signOut({ redirect: false, callbackUrl: '/' })
   };
@@ -20,7 +22,11 @@ const ProfileButton = () => {
     await fetch("http://127.0.0.1:8000/api/auth/logout/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-    }).then((response) => {}).catch((error) => {
+    }).then((response) => {
+      if (response.ok) {
+        router.push("/")
+      }
+    }).catch((error) => {
       console.log("Error while logging out!", error);
     });
 

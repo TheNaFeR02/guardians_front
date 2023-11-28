@@ -14,7 +14,17 @@ import interactionPlugin from '@fullcalendar/interaction'
 import fetchHeroEvents, { INITIAL_EVENTS, createEventId } from '../../app/(general)/scheduler/events/event-utils'
 import { HeroName } from '@/app/(general)/scheduler/page'
 import SelectHero from './components/SelectHero'
+import { createEvent } from '@/hooks/createEvent'
+import { deleteEvent } from '@/hooks/deleteEvent'
 
+
+export type myEvent = {
+  hero: number,
+  start: string,
+  end: string,
+  title: string,
+  color: string,
+}
 
 interface DemoAppState {
   weekendsVisible: boolean
@@ -22,17 +32,22 @@ interface DemoAppState {
   currentHero: number, // hero id.
 }
 
-export default class DemoApp extends React.Component<{heroNames:HeroName[]}, DemoAppState>  {
-
+export default class DemoApp extends React.Component<{ heroNames: HeroName[], token: string | null | undefined }, DemoAppState>  {
+  constructor(props: { heroNames: HeroName[], token: string | null | undefined }) {
+    super(props);
+    this.addEvent = this.addEvent.bind(this);
+    this.removeEvent = this.removeEvent.bind(this);
+  }
 
   state: DemoAppState = {
     weekendsVisible: true,
     currentEvents: [],
     currentHero: 5210,
+
   }
 
   render() {
-    
+
     return (
       <div className='demo-app'>
         {this.renderSidebar()}
@@ -60,23 +75,42 @@ export default class DemoApp extends React.Component<{heroNames:HeroName[]}, Dem
             eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
             /* you can update a remote database when these fire:
             eventChange={function(){}}
-            eventRemove={function(){}}
             */
+
             eventAdd={this.addEvent}
+            eventRemove={this.removeEvent}
           />
         </div>
       </div>
     )
   }
 
-  addEvent() {
 
+  async removeEvent(event: any) {
+    // console.log(event.event._def.publicId)
+    await deleteEvent(event.event._def.publicId, this.props.token)
+  }
+  async addEvent(addInfo: any) {
 
-
+    // console.log(this.state.currentHero)
+    if (this.state.currentHero !== undefined) {
+      console.log("currentHero is defined");
+      const event = {
+        hero: this.state.currentHero,
+        start: addInfo.event.startStr,
+        end: addInfo.event.endStr,
+        title: addInfo.event.title,
+        color: addInfo.event.backgroundColor,
+      };
+      console.log(this.props.token);
+      await createEvent(event, this.props.token);
+    } else {
+      console.error("currentHero is undefined");
+    }
   }
 
-  
-  selectedHero = (id:number) => {
+
+  selectedHero = (id: number) => {
     this.setState({
       currentHero: id
     })
@@ -87,10 +121,8 @@ export default class DemoApp extends React.Component<{heroNames:HeroName[]}, Dem
   renderSidebar() {
     return (
       <div className="flex justify-center">
-        <SelectHero heroNames={this.props.heroNames} handleChange={this.selectedHero}/>
+        <SelectHero heroNames={this.props.heroNames} handleChange={this.selectedHero} />
       </div>
-
-
     )
   }
 

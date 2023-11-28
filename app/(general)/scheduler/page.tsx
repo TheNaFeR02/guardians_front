@@ -57,7 +57,7 @@ export default async function SchedulerPage() {
 
   return (
     <>
-      <DemoApp heroNames={heroNames}/>
+      <DemoApp heroNames={heroNames} token={session?.user.accessAPIToken}/>
     </>
   )
 }
