@@ -51,7 +51,7 @@ export function createEventId() {
 
 export default async function SchedulerPage() {
   const session = await getServerSession(options)
-  const heroNames: HeroName[] = await fetchHeroNames(session?.user.accessAPIToken)
+  const heroNames = await fetchHeroNames(session?.user.accessAPIToken)
   if (!session) {
     redirect('/api/auth/signin?callbackUrl=/server')
   }

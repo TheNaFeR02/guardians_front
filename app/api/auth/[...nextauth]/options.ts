@@ -30,21 +30,45 @@ function generatePasswordHash(password: string, salt: string) {
 
 async function createUserFromProvider(user: User, password: string): Promise<boolean> {
 
-  const response = await usePost({
-    url: '/api/auth/register/',
-    method: "POST",
-    data: {
-      username: user.id,
-      email: user.email,
-      password1: password,
-      password2: password,
-      oauth_provider: user.oauth_provider,
-    },
-  });
+  // const response = await usePost({
+  //   url: '/api/auth/register/',
+  //   method: "POST",
+  //   data: {
+  //     username: user.id,
+  //     email: user.email,
+  //     password1: password,
+  //     password2: password,
+  //     oauth_provider: user.oauth_provider,
+  //   },
+  // });
 
-  const { data, statusCode, ok } = response;
+  // const { data, statusCode, ok } = response;
 
-  return ok;
+  // return ok;
+
+  const response = await fetch(parseURL('/api/auth/register/'),
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: user.id,
+          email: user.email,
+          password1: password,
+          password2: password,
+        })
+      })
+
+    console.log(await response);
+
+    if (response.status === 201) {
+      console.log("User registered successfully.");
+      return true;
+    }
+
+    return false;
+  
 }
 
 async function getToken(username: string, password: string): Promise<string | null> {

@@ -28,6 +28,7 @@ import SelectPowers from "./SelectPowers";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from 'next/navigation'
+import { parseURL } from "@/utils/parseUrl";
 
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5;

@@ -68,7 +68,7 @@ export default function AuthenticationPage() {
           >
             <blockquote className="space-y-2">
               <p className="text-lg drop-shadow backdrop-blur-sm rounded-2xl">
-                &ldquo;This project offers a comprehensive platform where users can engage with a diverse array of characters, each possessing distinct superpowers and intricate narratives. The functionality of the project extends to a carefully structured schedule, allowing users to navigate through a series of meticulously choreographed battles between heroes and villains. This immersive experience is underpinned by a seamless interface, providing enthusiasts with a formal and enriching encounter with the dynamic world of superheroic storytelling."&rdquo;
+                &ldquo;This project offers a comprehensive platform where users can engage with a diverse array of characters, each possessing distinct superpowers and intricate narratives. The functionality of the project extends to a carefully structured schedule, allowing users to navigate through a series of meticulously choreographed battles between heroes and villains. This immersive experience is underpinned by a seamless interface, providing enthusiasts with a formal and enriching encounter with the dynamic world of superheroic storytelling.&rdquo;
               </p>
               <footer className="text-sm">Guardians of the Globe</footer>
             </blockquote>
