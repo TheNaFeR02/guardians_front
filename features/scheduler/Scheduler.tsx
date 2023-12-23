@@ -16,6 +16,7 @@ import { HeroName } from '@/app/(general)/scheduler/page'
 import SelectHero from './components/SelectHero'
 import { createEvent } from '@/hooks/createEvent'
 import { deleteEvent } from '@/hooks/deleteEvent'
+import { parseURL } from '@/utils/parseUrl'
 
 
 export type myEvent = {
@@ -68,7 +69,7 @@ export default class DemoApp extends React.Component<{ heroNames: HeroName[], to
             // initialEvents={await fetchHeroEvents(session.user.accessAPIToken)}
             // initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
             // initialEvents={`http://127.0.0.1:8000/heroes/schedules/?hero=`} // fetching all by default
-            events={`http://127.0.0.1:8000/heroes/schedules/?hero=${this.state.currentHero}`}
+            events={parseURL(`/heroes/schedules/?hero=${this.state.currentHero}`)}
             select={this.handleDateSelect}
             eventContent={renderEventContent} // custom render function
             eventClick={this.handleEventClick}

@@ -1,3 +1,4 @@
+import { parseURL } from '@/utils/parseUrl'
 import { EventInput } from '@fullcalendar/core'
 
 let eventGuid = 0
@@ -19,7 +20,7 @@ export const INITIAL_EVENTS: EventInput[] = [
 
 export default async function fetchHeroEvents(token: string|null): Promise<EventInput[]> {
   try {
-    const response = await fetch('http://127.0.0.1:8000/heroes/schedules/', {
+    const response = await fetch(parseURL('/heroes/schedules/'), {
       method: 'GET',
       headers: { 'Authorization': `Token ${token}` },
     })

@@ -130,7 +130,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
 
 
     try {
-      const url = "http://127.0.0.1:8000/villains/villains/";
+      const url = parseURL("/villains/villains/");
       const response = await axios.post(url, formData, {
         headers: {
           // 'Content-Type': 'multipart/form-data', // Do not include the boundary

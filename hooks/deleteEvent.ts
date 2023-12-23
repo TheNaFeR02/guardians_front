@@ -1,3 +1,4 @@
+import { parseURL } from "@/utils/parseUrl";
 import { EventApi } from "@fullcalendar/core/index.js";
 import axios from "axios";
 import { cache } from "react";
@@ -6,7 +7,7 @@ import { cache } from "react";
 export const deleteEvent = cache(async (id: string, token: string | null | undefined) => {
   try {
     const res = await axios.delete(
-      `http://127.0.0.1:8000/heroes/schedules/${id}/`, {
+      parseURL(`/heroes/schedules/${id}/`), {
       headers: {
         'Authorization': `Token ${token}`,
         'Content-Type': 'application/json' // Specify content type as JSON

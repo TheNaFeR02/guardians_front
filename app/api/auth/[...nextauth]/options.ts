@@ -9,6 +9,7 @@ import { usePost } from "@/hooks/useFetch";
 import { createHmac } from 'crypto';
 import GoogleProvider from "next-auth/providers/google";
 import { RedirectType, redirect, useRouter } from "next/navigation";
+import { parseURL } from "@/utils/parseUrl";
 
 type Token = {
   key: string,
@@ -48,7 +49,7 @@ async function createUserFromProvider(user: User, password: string): Promise<boo
 
 async function getToken(username: string, password: string): Promise<string | null> {
   try {
-    const { data, status, statusText } = await axios.post<Token>('http://127.0.0.1:8000/api/auth/login/', {
+    const { data, status, statusText } = await axios.post<Token>(parseURL('/api/auth/login/'), {
       username: username,
       password: password,
     })
@@ -73,7 +74,7 @@ async function getToken(username: string, password: string): Promise<string | nu
 
 async function getUserDetails(token: string | null): Promise<User | null> {
   try {
-    const { data, status } = await axios.get<User>('http://127.0.0.1:8000/api/auth/user-detail/',
+    const { data, status } = await axios.get<User>(parseURL('/api/auth/user-detail/'),
       {
         headers: {
           "Content-Type": "application/json",

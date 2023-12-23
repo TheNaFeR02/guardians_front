@@ -1,5 +1,6 @@
 import { options } from "@/app/api/auth/[...nextauth]/options"
 import Sponsor from "@/features/guardians/types/Sponsor"
+import { parseURL } from "@/utils/parseUrl"
 import { throws } from "assert"
 import { Heading3 } from "lucide-react"
 import { getServerSession } from 'next-auth/next'
@@ -8,7 +9,7 @@ import { redirect } from "next/navigation"
 
 async function fetchSponsors(token: string): Promise<Sponsor[]> {
     try {
-        const response = await fetch('http://127.0.0.1:8000/heroes/sponsors/', {
+        const response = await fetch(parseURL('/heroes/sponsors/'), {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${token}`,

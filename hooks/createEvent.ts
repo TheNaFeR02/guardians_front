@@ -1,4 +1,5 @@
 import { myEvent } from "@/features/scheduler/Scheduler";
+import { parseURL } from "@/utils/parseUrl";
 import { EventApi, EventInput } from "@fullcalendar/core/index.js";
 import axios from "axios";
 import { cache } from "react";
@@ -14,7 +15,7 @@ export const createEvent = cache(async (event: myEvent, token: string | null | u
 
   try {
     const res = await axios.post(
-      `http://127.0.0.1:8000/heroes/schedules/`,
+      parseURL(`/heroes/schedules/`),
       body,
       {
         headers: {

@@ -1,5 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { parseURL } from "@/utils/parseUrl";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { CheckCircle } from "lucide-react";
@@ -15,7 +16,7 @@ async function validateEmail(key: string) {
     
     try {
 
-        const res = await fetch(`http://127.0.0.1:8000/api/auth/register/verify-email/`, {
+        const res = await fetch(parseURL(`/api/auth/register/verify-email/`), {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

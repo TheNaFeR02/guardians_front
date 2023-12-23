@@ -34,6 +34,7 @@ import SelectHeroSponsors from "./SelectHeroSponsors";
 import Sponsor from "../types/Sponsor";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useRouter } from 'next/navigation'
+import { parseURL } from "@/utils/parseUrl";
 
 const MAX_FILE_SIZE = 1024 * 1024 * 5;
 const ACCEPTED_IMAGE_MIME_TYPES = [
@@ -136,7 +137,7 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
     // console.log(formData.values);
 
     try {
-      const url = "http://127.0.0.1:8000/heroes/heroes/";
+      const url = parseURL("/heroes/heroes/");
       const response = await axios.post(url, formData, {
         headers: {
           // 'Content-Type': 'multipart/form-data', // Do not include the boundary

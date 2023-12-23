@@ -4,6 +4,7 @@ import Container from "@/components/ui/container";
 import VillainCard from "@/features/guardians/components/VillainCard";
 import VillainTabs from "@/features/guardians/components/VillainTabs";
 import { Villain } from "@/features/guardians/types/Villain";
+import { parseURL } from "@/utils/parseUrl";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -11,7 +12,7 @@ import { redirect } from "next/navigation";
 async function fetchVillainsData(token: string): Promise<Array<Villain>> {
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/villains/villains/', {
+        const response = await fetch(parseURL('/villains/villains/'), {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${token}`,

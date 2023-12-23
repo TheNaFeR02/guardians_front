@@ -3,13 +3,14 @@ import { Fight, columns } from "./columns"
 import { DataTable } from "./data-table"
 import { getServerSession } from "next-auth/next"
 import { options } from "@/app/api/auth/[...nextauth]/options"
+import { parseURL } from "@/utils/parseUrl"
 
 
 
 async function getData(token: string | null | undefined): Promise<Fight[]> {
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/heroes/fights/', {
+    const response = await fetch(parseURL('/heroes/fights/'), {
       method: 'GET',
       headers: { 'Authorization': `Token ${token}` },
     })

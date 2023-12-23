@@ -4,10 +4,11 @@ import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
 import Sponsor from "@/features/guardians/types/Sponsor";
+import { parseURL } from "@/utils/parseUrl";
 
 export async function fetchHeroNames(token: string | null | undefined): Promise<HeroName[]> {
   try {
-    const response = await fetch('http://127.0.0.1:8000/heroes/names/', {
+    const response = await fetch(parseURL('/heroes/names/'), {
       method: 'GET',
       headers: { 'Authorization': `Token ${token}` },
     })
@@ -21,7 +22,7 @@ export async function fetchHeroNames(token: string | null | undefined): Promise<
 
 async function fetchSponsors(token: string| null): Promise<Sponsor[]> {
     try {
-        const response = await fetch('http://127.0.0.1:8000/heroes/sponsors/', {
+        const response = await fetch(parseURL('/heroes/sponsors/'), {
             method: 'GET',
             headers: {
                 'Authorization': `Token ${token}`,

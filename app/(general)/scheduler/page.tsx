@@ -5,6 +5,7 @@ import { redirect } from "next/navigation"
 
 // ---------------------------------------------------------------- 
 import { EventInput } from '@fullcalendar/core'
+import { parseURL } from "@/utils/parseUrl"
 
 let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
@@ -30,7 +31,7 @@ export type HeroName = {
 
 export async function fetchHeroNames(token: string | null | undefined): Promise<HeroName[]> {
   try {
-    const response = await fetch('http://127.0.0.1:8000/heroes/names/', {
+    const response = await fetch(parseURL('/heroes/names/'), {
       method: 'GET',
       headers: { 'Authorization': `Token ${token}` },
     })

@@ -4,12 +4,13 @@ import VillainEnemies from "@/features/guardians/components/VillainEnemies";
 import VillainInfo from "@/features/guardians/components/VillainInfo";
 import Sponsor from "@/features/guardians/types/Sponsor";
 import { Villain } from "@/features/guardians/types/Villain";
+import { parseURL } from "@/utils/parseUrl";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
 async function fetchVillain(id: number, token: string): Promise<Villain> {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/villains/villains/${id}/`, {
+    const response = await fetch(parseURL(`/villains/villains/${id}/`), {
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`

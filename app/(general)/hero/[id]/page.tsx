@@ -4,13 +4,14 @@ import HeroInfo from "@/features/guardians/components/HeroInfo";
 import Superpowers from "@/features/guardians/components/Superpowers";
 import { Hero } from "@/features/guardians/types/Hero";
 import Sponsor from "@/features/guardians/types/Sponsor";
+import { parseURL } from "@/utils/parseUrl";
 import { throws } from "assert";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
 async function fetchHero(id: number, token: string): Promise<Hero> {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/heroes/heroes/${id}/`, {
+    const response = await fetch(parseURL(`/heroes/heroes/${id}/`), {
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`
@@ -25,7 +26,7 @@ async function fetchHero(id: number, token: string): Promise<Hero> {
 
 async function fetchSponsors(token: string): Promise<Sponsor[]> {
   try {
-    const response = await fetch('http://127.0.0.1:8000/heroes/sponsors/', {
+    const response = await fetch(parseURL('/heroes/sponsors/'), {
       method: 'GET',
       headers: {
         'Authorization': `Token ${token}`,

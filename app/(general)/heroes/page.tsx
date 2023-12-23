@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Hero } from '@/features/guardians/types/Hero'
 import HeroTabs from '@/features/guardians/components/HeroTabs'
+import { parseURL } from '@/utils/parseUrl'
 
 
 
 async function fetchHeroData(token: string) {
-  const response = await fetch('http://127.0.0.1:8000/heroes/heroes/', {
+  const response = await fetch(parseURL('/heroes/heroes/'), {
     method: 'GET',
     headers: {
       'Authorization': `Token ${token}`,
