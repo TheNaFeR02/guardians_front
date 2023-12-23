@@ -2,6 +2,11 @@ import '@/app/globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
+import localFont from 'next/font/local'
+
+// const myFont = localFont({src: '../../font/BADABB.ttf'})
+const myFont = localFont({src: '../../font/Roboto-Regular.ttf'})
+
 const inter = Inter({ subsets: ['latin'], })
 
 export const metadata: Metadata = {
@@ -17,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${myFont.className} tracking-wider`}>
       <body>{children}</body>
     </html>
   )

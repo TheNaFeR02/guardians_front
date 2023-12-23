@@ -38,6 +38,7 @@
     "cmdk": "^0.2.0",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.263.1",
     "next": "13.5.4",
     "next-auth": "^4.24.3",
