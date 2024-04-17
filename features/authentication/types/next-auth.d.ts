@@ -13,19 +13,20 @@ declare module "next-auth" {
         user: {
             id: string,
             username: string,
-            email: string,
+            email?: string | null,
             role: string,
             accessAPIToken: string|null,
+            error?: any,
         } & DefaultSession
     }
 
     interface User extends DefaultUser {
         id: string,
         username: string,
-        email: string,
+        email?: string | null,
         role: string,
         accessAPIToken: string | null,
-        oauth_provider: string | null,
+        // oauth_provider: string | null,
     }
 }
 

@@ -16,11 +16,18 @@ import { Icons } from "@/components/icons"
 import { useRef } from "react"
 import { signIn } from "next-auth/react"
 import Link from "next/link"
-import * as z from "zod"
+import * as z from "Zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useRouter } from "next/navigation"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Toaster } from "@/components/ui/sonner"
+import { useToast } from "@/components/ui/use-toast"
+import { ErrorToast } from "@/hooks/ErrorToast"
+import { serverErrorSchema } from "../types/serverError"
+
+
 
 const formSchema = z.object({
   username: z.string().min(3, { message: "Username must be at least 3 characters long" }),
@@ -29,6 +36,8 @@ const formSchema = z.object({
 
 export default function LoginAccount() {
   const router = useRouter()
+  const { toast } = useToast()
+  const { setOpenErrorToast } = ErrorToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,33 +49,38 @@ export default function LoginAccount() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
-    const result = await signIn("credentials", {
-      username: values.username,
-      password: values.password,
-      redirect: false,
-    })
+    try {
 
-    if (result?.error) {
-      if (result?.error === "E-mail is not verified.") {
-        form.setError("username", {
-          type: "manual",
-          message: "E-mail is not verified",
-        })
-      } else {
-        form.setError("username", {
-          type: "manual",
-          message: "Username or password is incorrect",
-        })
-        form.setError("password", {
-          type: "manual",
-          message: "Username or password is incorrect",
-        })
+      const result = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      })
+
+      if (result?.ok) {
+        toast({ title: "Success", description: "You have successfully logged in", style: { backgroundColor: "#4caf50", color: "white" } })
+        router.push("/heroes")
       }
-    } else {
-      router.push("/heroes")
-    }
 
+      if (result?.error) {
+        // We are using the serverErrorSchema to validate the error message from the server.
+        // If the error message is not valid, we display a generic error message.
+        // If the error message is valid, we display the error message from the server.
+        const serverErrorMessage = serverErrorSchema.safeParse(JSON.parse(result.error))
+        console.log("serverErrorMessage: ", serverErrorMessage)
+        if (serverErrorMessage.success) {
+
+          // Since django returns a list of errors, we join them into a single string and display them in the snackbar.
+          const errors = serverErrorMessage.data.non_field_errors.join('\n')
+          console.log("errors: ", errors)
+          setOpenErrorToast("Error login", errors);
+        }
+      }
+    } catch (error) {
+      setOpenErrorToast("Error login", "An unexpected error occurred, please try again later.");
+    }
   }
+
 
 
   return (
@@ -140,11 +154,7 @@ export default function LoginAccount() {
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-6 m-2">
-            <Button variant="outline" onClick={() => signIn("github", { callbackUrl: "/heroes" })}>
-              <Icons.gitHub className="mr-2 h-4 w-4" />
-              Github
-            </Button>
+          <div className="grid grid-cols-1 gap-6 m-2">
             <Button variant="outline" onClick={() => signIn("google", { callbackUrl: "/heroes" })}>
               <Icons.google color="" className="mr-2 h-4 w-4" />
               Google

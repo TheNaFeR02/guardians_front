@@ -47,12 +47,12 @@ export default withAuth(
     },
     {
         callbacks: {
-            authorized: ({ token }) => !!token
+            authorized: ({ token }) => !!token && !!token.accessAPIToken,
         },
 
         pages: {
             signIn: "/signin",
-
+            error: "/error",
         },
     },
 )

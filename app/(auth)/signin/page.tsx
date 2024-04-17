@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import LoginAccount from "@/features/authentication/components/signin-form"
 import { ReactComponentElement } from "react"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Authentication",
@@ -27,6 +28,8 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
   return (
     <>
+
+      <Toaster />
       <div className="hidden">
 
 
@@ -81,7 +84,7 @@ export default function AuthenticationPage() {
 
 
 
-      
+
 
 
 

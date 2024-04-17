@@ -10,110 +10,14 @@ import { createHmac } from 'crypto';
 import GoogleProvider from "next-auth/providers/google";
 import { RedirectType, redirect, useRouter } from "next/navigation";
 import { parseURL } from "@/utils/parseUrl";
+import { loginUser } from "@/features/authentication/services/loginUser";
+import { getUserDetails } from "@/features/authentication/services/getUserDetails";
+import { signinGoogle } from "@/features/authentication/services/signinGoogle";
 
 type Token = {
   key: string,
 }
 
-function generatePasswordHash(password: string, salt: string) {
-  const secretKey = process.env.PASSWORD_HASH_KEY_SECRET as string; // Keep this key secret
-  const hmac = createHmac('sha256', secretKey);
-
-  // Combine the password and salt before hashing
-  const data = password + salt;
-
-  // Update the HMAC with the combined data and digest it to get the hash
-  const hash = hmac.update(data).digest('hex');
-
-  return hash;
-}
-
-async function createUserFromProvider(user: User, password: string): Promise<boolean> {
-
-  // const response = await usePost({
-  //   url: '/api/auth/register/',
-  //   method: "POST",
-  //   data: {
-  //     username: user.id,
-  //     email: user.email,
-  //     password1: password,
-  //     password2: password,
-  //     oauth_provider: user.oauth_provider,
-  //   },
-  // });
-
-  // const { data, statusCode, ok } = response;
-
-  // return ok;
-
-  const response = await fetch(parseURL('/api/auth/register/'),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: user.id,
-          email: user.email,
-          password1: password,
-          password2: password,
-        })
-      })
-
-    console.log(await response);
-
-    if (response.status === 201) {
-      console.log("User registered successfully.");
-      return true;
-    }
-
-    return false;
-  
-}
-
-async function getToken(username: string, password: string): Promise<string | null> {
-  try {
-    const { data, status, statusText } = await axios.post<Token>(parseURL('/api/auth/login/'), {
-      username: username,
-      password: password,
-    })
-    const token = data.key
-
-
-    return token
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response && error.response.data.non_field_errors) {
-        throw new Error(error.response.data.non_field_errors[0]);
-      } else {
-        throw new Error(error.message);
-      }
-    } else {
-      throw error;
-    }
-  }
-  // return null
-
-}
-
-async function getUserDetails(token: string | null): Promise<User | null> {
-  try {
-    const { data, status } = await axios.get<User>(parseURL('/api/auth/user-detail/'),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Token ${token}`
-        },
-      },
-    );
-    const user = data
-    user.accessAPIToken = token
-    return user
-  } catch (error) {
-    console.log(error);
-    return null
-  }
-}
 
 export const options: NextAuthOptions = {
   // Configure one or more authentication providers.
@@ -153,24 +57,12 @@ export const options: NextAuthOptions = {
       async authorize(credentials: any, req) {
         // Add logic here to look up the user from the credentials supplied
         //   const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-        // post with axios
-
         try {
-          const { username, password } = credentials;
-
-          // logs in the user, if true returns the token
-          const token = await getToken(username, password)
-
-          // Get user details
-          const user = await getUserDetails(token)
-
-          // If Token exists return user details
-          return token ? user : null
+          const apiToken = await loginUser(credentials);
+          if (!apiToken) return null;
+          return await getUserDetails(apiToken.key);
         } catch (error) {
-          if (error instanceof Error && error.message === "E-mail is not verified.") {
-            throw new Error(error.message)
-          }
-          return null;
+          throw error instanceof Error ? new Error(error.message) : error;
         }
       },
     }),
@@ -179,80 +71,66 @@ export const options: NextAuthOptions = {
   callbacks: {
     // Ref: https://authjs.dev/guides/basics/role-based-access-control#persisting-the-role
 
-    
+
 
     async jwt({ token, user, account }) {
-      if (user) token.role = user.role
-      if (user) token.id = user.id
-      // 1ST. CASE
-      if (user) token.accessAPIToken = user.accessAPIToken // For OAuth the accessAPIToken is undefined at this point. Below is obtained. 
+      // either way i would need to save the token in the jwt callback. So maybe the await signinGoogle(id_token) wont be able to put in the signin callback
+      console.log("-----------JWT CALLBACK-----------")
+      if (user) {
+        token.role = user.role
+        token.accessAPIToken = user.accessAPIToken
+        token.email = user.email
+      }
+      // // if user authenticates with google, the token here user.key will be undefined
+      // // we use the account object to get the user id_token of google and then use it for the backend
 
-      // console.log("account: ",account);
-      // console.log("user: ",user);
-      if (account && user) {
-        if (account.provider === "google") {
-          user.oauth_provider = "google"
-        }
+      if (account?.provider === "google" && account.id_token) {
+        console.log("account", account)
+        const id_token = account.id_token;
 
-        if (account.type === 'oauth') {
-          const plaintextPassword = user.id;
-          let password = null;
-          let userTokenExist = null;
-
-          // Generate password
-          const salt = 'randomly_generated_salt';
-          password = await generatePasswordHash(user.id, salt);
-          console.log('Generated hashed password:', password);
-
-
-          // Check if the user already exists in the backend.
-          if (password) userTokenExist = await getToken(user.id, password);
-          console.log("userTokenExist: ", userTokenExist);
-
-
-          // If the user token exists, it means they already have an API account.
-          if (userTokenExist) {
-            token.accessAPIToken = userTokenExist;
-            // console.log("token_key: ", token.accessAPIToken);
-            // 2ND. CASE
-            return token;
-          } else {
-            // If the user didn't exist, create their account in the backend.
-            if (password) {
-              let userToken = null;
-              const accountCreated = await createUserFromProvider(user, password);
-              console.log("accountCreated: ", accountCreated);
-
-              if (accountCreated) {
-                const userToken = await getToken(user.id, password);
-
-                token.accessAPIToken = userToken;
-                console.log("token_key: ", token.accessAPIToken);
-
-                // 3RD. CASE
-                return token;
-              }
-
-
-            }
-          }
+        try {
+          const apiToken = await signinGoogle(id_token);
+          console.log("token succesfully retrieved w/ Google Provider: ", apiToken);
+          token.accessAPIToken = apiToken.key
+          return token
+        } catch (error) {
+          console.error("error", error);
+          token.error = error; // if we assign an error to the token, we can use it then in pages to redirect to the error page 
         }
       }
-
-
       return token
     },
 
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role
-      if (session?.user) session.user.accessAPIToken = token.accessAPIToken
+      console.log("-----------SESSION CALLBACK-----------")
+      if (session?.user) {
+        session.user.role = token.role
+        session.user.accessAPIToken = token.accessAPIToken
+        session.user.email = token.email
+      }
+      session.user.error = token.error;
       return session
     },
 
+    async redirect({ url, baseUrl }) {
 
+      // if the user is authenticated with google, 
+      // we redirect to the google-callback page which handles wheter the user is authenticated or not
+      if (url.includes("/google-callback")) {
+        return '/google-callback';
+      }
+
+      // This is the default behavior,
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
+    }
 
   },
   pages: {
     signIn: "/signin",
+    error: "/error",
   },
 }
