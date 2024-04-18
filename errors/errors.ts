@@ -1,4 +1,4 @@
-import { z } from 'Zod';
+import { z } from 'zod';
 
 export class ServerKnownError extends Error {
   serverErrors?: { [key: string]: string[] };

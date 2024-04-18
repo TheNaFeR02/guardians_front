@@ -1,4 +1,4 @@
-import { z } from 'Zod';
+import { z } from 'zod';
 import { ServerKnownError } from "@/errors/errors";
 import { parseURL } from "@/utils/parseUrl";
 import { RegisterForm } from '../components/signup-form';

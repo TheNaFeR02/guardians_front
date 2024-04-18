@@ -1,5 +1,5 @@
 
-import { z } from "Zod"
+import { z } from "zod"
 
 export const userSchema = z.object({
   id: z.number().transform(num => num.toString()), // backend has number Id, user Interface uses a string for the id.

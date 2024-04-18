@@ -2,7 +2,7 @@
 import { ServerKnownError } from '@/errors/errors';
 import { ServerError, serverErrorSchema } from '@/features/authentication/types/serverError';
 import { parseURL } from '@/utils/parseUrl';
-import { z } from 'Zod';
+import { z } from 'zod';
 
 const successResponseSchema = z.object({
   key: z.string(),
