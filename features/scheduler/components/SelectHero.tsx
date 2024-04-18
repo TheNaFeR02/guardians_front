@@ -26,13 +26,13 @@ export default function SelectHero({heroNames, handleChange}:{heroNames:HeroName
           >
             {value
               ? heroNames.find(({id, name}) => name.toLowerCase() === value)?.name
-              : "Select Hero..."}
+              : "Invincible"}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search framework..." />
+            <CommandInput placeholder="Search hero..." />
             <CommandEmpty>No Hero Found.</CommandEmpty>
             <CommandGroup>
               {heroNames.map(({id,name}) => (
