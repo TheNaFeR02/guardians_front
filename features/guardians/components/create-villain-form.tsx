@@ -235,7 +235,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
                     <Input placeholder="Enter a name" {...field} />
                   </FormControl>
                   <FormDescription>
-                    This will be the name of your hero.
+                    This will be the name of your villain.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -252,7 +252,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
                     <Input type="number" placeholder="Enter an Age" {...field} />
                   </FormControl>
                   <FormDescription>
-                    How old you want your hero to be?
+                    How old you want your villain to be?
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -330,7 +330,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
                     <Input placeholder="Choose an image" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Tell us somehting about your hero
+                    Tell us somehting about your villain
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -357,7 +357,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
                   <Badge key={power.id} variant="outline">{power.name}</Badge>))}
               </div>
               <FormDescription>
-                Select some powers for your hero
+                Select some powers for your villain
               </FormDescription>
             </FormItem>
 
