@@ -46,6 +46,7 @@ const HeroCard = ({ params }: { params: Hero }) => {
                   <p className="font-semibold text-lg">{params.name}</p>
                   <p className="text-sm text-primary/80">Age: {params.age}</p>
                   <p className="text-sm text-primary/80">{params.description}</p>
+                  <p className="text-xs text-primary/80">{params.image_url}</p>
                 </div>
                 <div className="flex items-end">
                     <DeleteHeroAlert id={params.id} deleteCard={()=>setVisible(!visible)}/>
