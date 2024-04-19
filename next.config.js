@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['127.0.0.1', 'guardians-api-dev.us-west-2.elasticbeanstalk.com'],
+    domains: ['127.0.0.1', 'guardians-api-dev.us-west-2.elasticbeanstalk.com', 'https://gotg-api.onrender.com'],
   },
   experimental: {
     serverActions: true,
