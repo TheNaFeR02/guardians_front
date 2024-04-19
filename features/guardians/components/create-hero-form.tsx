@@ -279,10 +279,10 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
 
             <FormField
               control={form.control}
-              name="image_url"
+              name="image_url" // image_url is being used as the background image
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image   </FormLabel>
+                  <FormLabel>Background Image</FormLabel>
                   <FormControl>
                     {/* <Input {...field} type="file" accept="image/jpeg,image/png,image/gif" placeholder="Choose an image" /> */}
                     <input
@@ -292,7 +292,7 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
                     />
                   </FormControl>
                   <FormDescription>
-                    Upload the best angle.
+                    Upload the baddest background. <i>(1280 x 720 recommended)</i>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -302,10 +302,10 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
 
             <FormField
               control={form.control}
-              name="image_screen_large_url"
+              name="image_screen_large_url" // image_screen_large_url is being used as the profile image
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Background Image</FormLabel>
+                  <FormLabel>Image<br/></FormLabel>
                   <FormControl>
                     {/* <Input {...field} type="file" accept="image/jpeg,image/png,image/gif" placeholder="Choose an image" /> */}
                     <input
@@ -315,7 +315,7 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
                     />
                   </FormControl>
                   <FormDescription>
-                    Upload the baddest background.
+                    Upload the best angle. <i>~(300 x 300)</i>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

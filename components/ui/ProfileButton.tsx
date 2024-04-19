@@ -46,19 +46,6 @@ const ProfileButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>
-          My Account
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
-          Billing
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
-          Subscription
-        </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
           Log out
         </DropdownMenuItem>
