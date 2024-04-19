@@ -143,7 +143,7 @@ export function CreateVillainForm({ heroNames }: { heroNames: HeroName[] }) {
 
     } catch (error) {
       // Handle any errors here.
-setErrorPostForm(true);
+      setErrorPostForm(true);
 
       console.error(error);
     }
@@ -278,10 +278,10 @@ setErrorPostForm(true);
 
             <FormField
               control={form.control}
-              name="image_url"
+              name="image_url" // image_url is being used as background image
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image<br /></FormLabel>
+                  <FormLabel>Background Image<br /></FormLabel>
                   <FormControl>
                     {/* <Input {...field} type="file" accept="image/jpeg,image/png,image/gif" placeholder="Choose an image" /> */}
                     <input
@@ -291,7 +291,7 @@ setErrorPostForm(true);
                     />
                   </FormControl>
                   <FormDescription>
-                    Upload the best angle.
+                    Upload the baddest background. <i>(1280 x 720 recommended)</i>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -300,10 +300,10 @@ setErrorPostForm(true);
 
             <FormField
               control={form.control}
-              name="image_screen_large_url"
+              name="image_screen_large_url" // image_screen_large_url is being used as main image
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Background Image</FormLabel>
+                  <FormLabel>Image<br /></FormLabel>
                   <FormControl>
                     {/* <Input {...field} type="file" accept="image/jpeg,image/png,image/gif" placeholder="Choose an image" /> */}
                     <input
@@ -313,7 +313,7 @@ setErrorPostForm(true);
                     />
                   </FormControl>
                   <FormDescription>
-                    Upload the baddest background.
+                    Upload the best angle. <i>~(300 x 300)</i>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

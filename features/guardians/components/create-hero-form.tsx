@@ -315,8 +315,8 @@ export function CreateHeroForm({ heroNames, sponsors }: { heroNames: HeroName[],
                     />
                   </FormControl>
                   <FormDescription>
-                    Upload the best angle. <i>~(300 x 300)</i>
-                  </FormDescription>
+                    Upload the best angle. <i>~(300 x 300)</i> 
+                    </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
